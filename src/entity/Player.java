@@ -46,7 +46,7 @@ public class Player extends Entity {
 
         up1 = setup("/player/boy_up_1");
         up2 = setup("/player/boy_up_2");
-        down1= setup("/player/boy_down_1");
+        down1 = setup("/player/boy_down_1");
         down2 = setup("/player/boy_down_2");
         left1 = setup("/player/boy_left_1");
         left2 = setup("/player/boy_left_2");
@@ -114,15 +114,20 @@ public class Player extends Entity {
         }
     }
 
-    public void pickUpObject(int i){
-        if(i != 999){
+    public void pickUpObject(int i) {
+        if (i != 999) {
 
         }
     }
-    public void interactNPC(int i){
-        if(i != 999){
-            System.out.println("You are hitting an NPC");
+
+    public void interactNPC(int i) {
+        if (i != 999) {
+            if (gp.keyH.enterPressed) {
+                gp.gameState = gp.dialogState;
+                gp.npc[i].speak();
+            }
         }
+        gp.keyH.enterPressed = false;
     }
 
     public void draw(Graphics2D g2) {
@@ -165,7 +170,7 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image, screenX, screenY,null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 
 }
