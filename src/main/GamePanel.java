@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-    public void setupGame(){
+    public void setupGame() {
         aSetter.setObject();
 
         playMusic(0);
@@ -76,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
             timer += (currentTime - lastTime);  // add past time to the timer
             lastTime = currentTime;  // subtract last time from current time
 
-            if(delta >= 1){
+            if (delta >= 1) {
                 update();  // Update information such as character position
                 repaint();  // Draw the screen with the updated information
                 delta--;
@@ -84,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             // display FPS on console
-            if(timer >= 1000000000){
+            if (timer >= 1000000000) {
                 System.out.println("FPS: " + drawCount);
                 drawCount = 0;
                 timer = 0;
@@ -100,12 +100,18 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
+        // Debug
+        long drawStart = 0;
+        if (keyH.checkDrawTime == true) {
+            drawStart = System.nanoTime();
+        }
+
         // Tile
         tileM.draw(g2);
 
         // Objects
-        for(int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
                 obj[i].draw(g2, this);
             }
         }
@@ -116,17 +122,30 @@ public class GamePanel extends JPanel implements Runnable {
         // UI
         ui.draw(g2);
 
+        // Debug
+        if (keyH.checkDrawTime == true) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.WHITE);
+            g2.drawString("Draw Time: " + passed, 10, 400);
+            System.out.println("Draw Time: " + passed);
+        }
+
         g2.dispose();
     }
-    public void playMusic(int i){
+
+
+    public void playMusic(int i) {
         music.setFile(i);
-            music.play();
-            music.loop();
+        music.play();
+        music.loop();
     }
-    public void stopMusic(){
+
+    public void stopMusic() {
         music.stop();
     }
-    public void playSE(int i){
+
+    public void playSE(int i) {
         se.setFile(i);
         se.play();
     }
